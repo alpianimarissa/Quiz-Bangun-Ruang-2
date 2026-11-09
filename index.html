@@ -1,197 +1,154 @@
-<!-- ... existing code ... -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Petualangan Bangun Ruang - Kuis Kelas 4 SD</title>
+    <title>Kuis Interaktif Bangun Ruang</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts Fredoka & Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Fredoka', 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #fef3c7 100%);
-            color: #1e293b;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
         }
-        .btn-bounce {
-            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .btn-bounce:hover {
-            transform: translateY(-3px) scale(1.02);
-        }
-        .btn-bounce:active {
-            transform: translateY(1px) scale(0.98);
-        }
-        /* Style pembatas ukuran visual SVG agar rapi & tidak kebesaran */
-        .svg-visual-box {
-            max-height: 140px;
-            width: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .svg-visual-box svg {
-            max-height: 130px;
-            width: auto;
-        }
-        /* Custom scrollbar */
+        /* Scrollbar Halus */
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #e2e8f0;
-            border-radius: 8px;
+            background: #f1f5f9;
         }
         ::-webkit-scrollbar-thumb {
-            background: #93c5fd;
-            border-radius: 8px;
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col justify-between">
 
-    <!-- Header & Status Bar Ceria -->
-    <header class="bg-gradient-to-r from-amber-400 via-orange-400 to-pink-500 text-white shadow-lg sticky top-0 z-30 rounded-b-3xl">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row justify-between items-center gap-3">
+    <!-- HEADER / TOP NAV -->
+    <header class="bg-gradient-to-r from-indigo-700 via-indigo-600 to-purple-600 text-white shadow-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-3">
             <div class="flex items-center gap-3">
-                <span class="text-4xl animate-bounce">🏰</span>
+                <span class="text-3xl">📝</span>
                 <div>
-                    <h1 class="text-xl sm:text-2xl font-extrabold tracking-wide drop-shadow">Petualangan Bangun Ruang!</h1>
-                    <p class="text-xs text-amber-100 font-medium">Kuis Asyik Kelas 4 SD • 30 Tantangan Seru 🚀</p>
+                    <h1 class="text-lg sm:text-2xl font-extrabold tracking-tight">Kuis Interaktif Bangun Ruang</h1>
+                    <p class="text-xs text-indigo-200">30 Soal Essay • Identifikasi Visual, Riddle & Penerapan</p>
                 </div>
             </div>
-
-            <!-- Total Score & Progress Badge -->
-            <div class="flex items-center gap-2 sm:gap-3 flex-wrap justify-center">
-                <div class="bg-white/20 backdrop-blur-md px-3.5 py-1.5 rounded-2xl border border-white/30 text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-inner">
-                    <span>✏️ Terisi:</span> <span id="answeredCount" class="text-yellow-200 text-base">0</span> / 30
-                </div>
-                <div class="bg-white/20 backdrop-blur-md px-3.5 py-1.5 rounded-2xl border border-white/30 text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-inner">
-                    <span>⭐ Skor:</span> <span id="totalScore" class="text-lime-200 text-base">0</span> Poin
-                </div>
-                <button onclick="resetAllData()" class="px-3.5 py-1.5 bg-rose-500 hover:bg-rose-600 text-white text-xs font-bold rounded-2xl transition-all shadow-md btn-bounce flex items-center gap-1">
-                    🔄 Reset
+            
+            <div class="flex items-center gap-3">
+                <button onclick="resetAllProgress()" class="px-3.5 py-2 bg-indigo-900/60 hover:bg-indigo-900 text-indigo-100 rounded-xl text-xs font-semibold transition-all border border-indigo-400/30 flex items-center gap-1.5">
+                    🔄 Reset Semua Jawaban
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Content Grid -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
 
-        <!-- Sidebar Navigation Grid (4 Cols on LG) -->
-        <aside class="lg:col-span-4 order-2 lg:order-1 space-y-4">
-            <div class="bg-white/90 backdrop-blur-md p-5 rounded-3xl shadow-xl border-2 border-indigo-100">
-                <div class="flex justify-between items-center mb-3">
-                    <h2 class="text-sm font-extrabold text-indigo-900 tracking-wide flex items-center gap-1.5">
-                        <span>🗺️</span> Peta Nomor Soal (1–30)
-                    </h2>
-                    <span class="text-[11px] text-indigo-500 font-semibold">Klik untuk pilih</span>
+        <!-- LEFT SIDE: NAVIGASI SOAL & STATISTIK (1 Column) -->
+        <aside class="lg:col-span-1 space-y-6">
+            <!-- Card Progress -->
+            <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-400">Ringkasan Nilai & Progres</h3>
+                
+                <div class="grid grid-cols-2 gap-3 text-center">
+                    <div class="p-3 bg-indigo-50 rounded-2xl border border-indigo-100">
+                        <span class="block text-[10px] font-bold text-indigo-500 uppercase">Terjawab</span>
+                        <span id="statAnswered" class="text-xl font-black text-indigo-900">0 / 30</span>
+                    </div>
+                    <div class="p-3 bg-emerald-50 rounded-2xl border border-emerald-100">
+                        <span class="block text-[10px] font-bold text-emerald-500 uppercase">Benar</span>
+                        <span id="statCorrect" class="text-xl font-black text-emerald-900">0</span>
+                    </div>
                 </div>
 
-                <!-- Status Legend -->
-                <div class="grid grid-cols-3 gap-1.5 text-[11px] font-bold text-slate-600 mb-4 pb-3 border-b border-indigo-100">
-                    <div class="flex items-center gap-1 bg-slate-100 px-2 py-1 rounded-lg">
-                        <span class="w-2.5 h-2.5 rounded-full bg-slate-300 inline-block"></span> Belum
+                <!-- Progress bar -->
+                <div>
+                    <div class="flex justify-between text-xs font-semibold mb-1">
+                        <span class="text-slate-500">Kemajuan</span>
+                        <span id="progressPercent" class="text-indigo-600 font-bold">0%</span>
                     </div>
-                    <div class="flex items-center gap-1 bg-emerald-50 px-2 py-1 rounded-lg text-emerald-700">
+                    <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                        <div id="progressBar" class="bg-indigo-600 h-full rounded-full transition-all duration-300 w-0"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid Nomor Soal -->
+            <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-3">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-400">Navigasi Soal</h3>
+                    <span class="text-[11px] text-slate-400">Pilih Nomor</span>
+                </div>
+
+                <div id="navGrid" class="grid grid-cols-5 gap-2">
+                    <!-- Dynamic rendering by JS -->
+                </div>
+
+                <!-- Legenda -->
+                <div class="pt-2 border-t border-slate-100 grid grid-cols-3 gap-1 text-[10px] font-semibold text-slate-500">
+                    <div class="flex items-center gap-1">
+                        <span class="w-2.5 h-2.5 rounded-full bg-slate-200 inline-block"></span> Belum
+                    </div>
+                    <div class="flex items-center gap-1">
                         <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> Benar
                     </div>
-                    <div class="flex items-center gap-1 bg-rose-50 px-2 py-1 rounded-lg text-rose-700">
+                    <div class="flex items-center gap-1">
                         <span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span> Salah
                     </div>
                 </div>
-
-                <!-- 30 Question Buttons Grid -->
-                <div id="navGrid" class="grid grid-cols-6 gap-2">
-                    <!-- Populated dynamically via JS -->
-                </div>
-            </div>
-
-            <!-- Petunjuk Pengerjaan Ceria -->
-            <div class="bg-gradient-to-br from-amber-100 to-amber-50 p-5 rounded-3xl border-2 border-amber-200 text-xs text-amber-900 leading-relaxed shadow-sm">
-                <h3 class="font-extrabold mb-1.5 flex items-center gap-1.5 text-amber-950 text-sm">
-                    <span>💡</span> Cara Menjawab:
-                </h3>
-                <ul class="space-y-1.5 font-medium text-amber-900">
-                    <li class="flex items-start gap-1">✨ Ketik jawaban kamu di kotak yang tersedia.</li>
-                    <li class="flex items-start gap-1">✨ Tulis jawaban dengan kata kunci singkat (contoh: <code class="bg-white/80 px-1.5 py-0.5 rounded text-amber-950 font-bold border border-amber-300">Kubus</code> atau <code class="bg-white/80 px-1.5 py-0.5 rounded text-amber-950 font-bold border border-amber-300">6</code>).</li>
-                    <li class="flex items-start gap-1">✨ Jawabanmu aman tersimpan walau HP/Laptop terreload!</li>
-                </ul>
             </div>
         </aside>
 
-        <!-- Main Question Box (8 Cols on LG) -->
-        <section class="lg:col-span-8 order-1 lg:order-2">
-            <div class="bg-white/95 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-xl border-4 border-indigo-100 flex flex-col justify-between min-h-[540px]">
+        <!-- RIGHT SIDE: AREA SOAL (3 Columns) -->
+        <section class="lg:col-span-3">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6 relative min-h-[500px] flex flex-col justify-between">
                 
+                <!-- Header Soal -->
                 <div>
-                    <!-- Category Badge & Progress -->
-                    <div class="flex flex-wrap justify-between items-center gap-2 mb-4 pb-3 border-b-2 border-slate-100">
-                        <span id="qCategory" class="text-xs font-extrabold tracking-wider text-indigo-700 bg-indigo-100 border border-indigo-200 px-3.5 py-1.5 rounded-full shadow-sm">
-                            🔍 Ciri-Ciri Bangun Ruang
-                        </span>
-                        <span id="qNumberText" class="text-xs font-bold text-slate-400 bg-slate-100 px-3 py-1 rounded-full">
-                            Soal 1 dari 30
-                        </span>
-                    </div>
-
-                    <!-- Question Prompt -->
-                    <h2 id="qTitle" class="text-lg sm:text-xl font-extrabold text-slate-800 leading-relaxed mb-4">
-                        Memuat Pertanyaan...
-                    </h2>
-
-                    <!-- Shape Visual SVG Container -->
-                    <div id="shapeVisualContainer" class="hidden mb-6 flex justify-center items-center bg-slate-50/80 p-3 rounded-2xl border-2 border-dashed border-indigo-200 svg-visual-box">
-                        <!-- SVG Shape loaded here -->
-                    </div>
-
-                    <!-- Essay Input Form -->
-                    <div class="space-y-3">
-
-                        <!-- SVG Shape loaded here -->
-                    </div>
-
-                    <!-- Essay Input Form -->
-                    <div class="space-y-3">
-                        <label for="userAnswerInput" class="block text-xs font-extrabold text-indigo-900 tracking-wide">
-                            ✏️ Ketik Jawabanmu di Sini:
-                        </label>
-                        <textarea 
-                            id="userAnswerInput" 
-                            rows="2" 
-                            placeholder="Tuliskan jawaban singkatmu di sini ya..." 
-                            class="w-full p-4 bg-indigo-50/50 border-2 border-indigo-200 rounded-2xl text-base text-slate-800 font-semibold focus:outline-none focus:ring-4 focus:ring-amber-300 focus:bg-white transition-all resize-none shadow-inner"
-                        ></textarea>
-
-                        <div class="flex justify-end">
-                            <button id="btnSubmitAnswer" onclick="submitCurrentAnswer()" class="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-extrabold rounded-2xl text-sm transition-all shadow-md btn-bounce flex items-center gap-2">
-                                🚀 Jawab Soal Ini 
-                            </button>
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-4 mb-6">
+                        <div class="flex items-center gap-2">
+                            <span id="questionCategoryTag" class="px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-extrabold rounded-full uppercase tracking-wider">
+                                Type: Identifikasi
+                            </span>
+                            <span class="text-xs font-semibold text-slate-400">• Bebas Diisi</span>
                         </div>
+                        <span id="questionNumberTitle" class="text-lg font-black text-slate-800">Soal 1 dari 30</span>
                     </div>
 
-                    <!-- Instant Feedback Card (Hidden by default) -->
-                    <div id="feedbackContainer" class="hidden mt-6 p-5 rounded-2xl border-2 transition-all text-sm leading-relaxed space-y-2">
-                        <div class="flex items-center gap-2 font-extrabold text-base sm:text-lg" id="feedbackTitle">
-                            <!-- Populated via JS -->
-                        </div>
-                        <p id="feedbackExplanation" class="text-xs sm:text-sm font-medium">
-                            <!-- Populated via JS -->
-                        </p>
+                    <!-- Dynamic Question Area -->
+                    <div id="questionContentArea" class="space-y-6">
+                        <!-- Populated by JS -->
                     </div>
                 </div>
 
-                <!-- Navigation Controls (Prev / Next) -->
-                <div class="flex justify-between items-center pt-5 mt-6 border-t-2 border-slate-100">
-                    <button id="btnPrev" onclick="navigateQuestion(-1)" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold rounded-2xl text-xs sm:text-sm transition-all btn-bounce flex items-center gap-1">
-                        ⬅️ Soal Sebelumnya
+                <!-- Umpan Balik Langsung -->
+                <div id="feedbackBox" class="hidden p-4 rounded-2xl text-sm font-semibold transition-all"></div>
+
+                <!-- Navigation Controls -->
+                <div class="flex justify-between items-center pt-6 border-t border-slate-100">
+                    <button id="btnPrev" onclick="navigateQuestion(-1)" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs sm:text-sm transition-all disabled:opacity-40">
+                        ⬅️ Sebelumnya
                     </button>
-                    <button id="btnNext" onclick="navigateQuestion(1)" class="px-4 py-2.5 bg-amber-400 hover:bg-amber-500 text-amber-950 font-extrabold rounded-2xl text-xs sm:text-sm transition-all shadow-md btn-bounce flex items-center gap-1">
-                        Soal Selanjutnya ➡️
+
+                    <div class="flex gap-2">
+                        <button id="btnCheck" onclick="submitCurrentAnswer()" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs sm:text-sm transition-all shadow-md">
+                            Periksa Jawaban ✔️
+                        </button>
+                    </div>
+
+                    <button id="btnNext" onclick="navigateQuestion(1)" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs sm:text-sm transition-all disabled:opacity-40">
+                        Selanjutnya ➡️
                     </button>
                 </div>
 
@@ -200,570 +157,539 @@
 
     </main>
 
-    <!-- Modal Konfirmasi Reset -->
-    <div id="resetModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl border-4 border-rose-200 text-center">
-            <div class="w-16 h-16 bg-rose-100 text-rose-500 rounded-full flex items-center justify-center text-4xl mx-auto">⚠️</div>
-            <h3 class="text-xl font-extrabold text-slate-800">Mulai Dari Awal?</h3>
-            <p class="text-xs font-semibold text-slate-500 leading-relaxed">
-                Semua jawaban yang sudah kamu isi dan skor kamu akan dihapus. Yakin mau mengulang dari awal?
-            </p>
-            <div class="flex justify-center gap-3 pt-2">
-                <button onclick="closeResetModal()" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl text-xs transition-all">
-                    Batal
-                </button>
-                <button onclick="confirmResetAll()" class="px-5 py-2.5 bg-rose-500 hover:bg-rose-600 text-white font-extrabold rounded-2xl text-xs transition-all shadow-md btn-bounce">
-                    Ya, Reset Kuis 🔄
-                </button>
-            </div>
-        </div>
-    </div>
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-slate-400 text-xs mt-6">
+        <p>Kuis Interaktif Bangun Ruang &copy; 2026 • Tersimpan Otomatis di Perangkat Anda</p>
+    </footer>
 
-    <!-- JavaScript & IndexedDB Storage Logic -->
+    <!-- SCRIPT APPLICATION LOGIC -->
     <script>
-        // SVG Shapes Assets for Visual Questioning (Diatur ukurannya agar proporsional & seragam)
-        const shapeSvgs = {
-            kubus: `<svg viewBox="0 0 160 160" class="h-28 w-auto drop-shadow-md">
-                <polygon points="40,40 110,40 110,110 40,110" fill="#a5b4fc" fill-opacity="0.5" stroke="#4f46e5" stroke-width="3"/>
-                <polygon points="65,15 135,15 135,85 65,85" fill="#818cf8" fill-opacity="0.6" stroke="#4f46e5" stroke-width="3"/>
-                <line x1="40" y1="40" x2="65" y2="15" stroke="#4f46e5" stroke-width="3"/>
-                <line x1="110" y1="40" x2="135" y2="15" stroke="#4f46e5" stroke-width="3"/>
-                <line x1="110" y1="110" x2="135" y2="85" stroke="#4f46e5" stroke-width="3"/>
-                <line x1="40" y1="110" x2="65" y2="85" stroke="#4f46e5" stroke-width="3" stroke-dasharray="4"/>
+        // DATA SVG DARI MATERI SEBELUMNYA
+        const SVG_ASSETS = {
+            kubus: `<svg viewBox="0 0 200 180" class="w-36 h-36 drop-shadow">
+                <polygon points="60,50 140,50 140,130 60,130" fill="#6366f1" fill-opacity="0.2" stroke="#4f46e5" stroke-width="3"/>
+                <polygon points="90,20 170,20 170,100 90,100" fill="#818cf8" fill-opacity="0.3" stroke="#4f46e5" stroke-width="3"/>
+                <line x1="60" y1="50" x2="90" y2="20" stroke="#4f46e5" stroke-width="3"/>
+                <line x1="140" y1="50" x2="170" y2="20" stroke="#4f46e5" stroke-width="3"/>
+                <line x1="140" y1="130" x2="170" y2="100" stroke="#4f46e5" stroke-width="3"/>
+                <line x1="60" y1="130" x2="90" y2="100" stroke="#4f46e5" stroke-width="3" stroke-dasharray="4"/>
             </svg>`,
-            balok: `<svg viewBox="0 0 180 140" class="h-28 w-auto drop-shadow-md">
-                <polygon points="30,45 130,45 130,105 30,105" fill="#93c5fd" fill-opacity="0.5" stroke="#2563eb" stroke-width="3"/>
-                <polygon points="60,20 160,20 160,80 60,80" fill="#60a5fa" fill-opacity="0.6" stroke="#2563eb" stroke-width="3"/>
-                <line x1="30" y1="45" x2="60" y2="20" stroke="#2563eb" stroke-width="3"/>
-                <line x1="130" y1="45" x2="160" y2="20" stroke="#2563eb" stroke-width="3"/>
-                <line x1="130" y1="105" x2="160" y2="80" stroke="#2563eb" stroke-width="3"/>
-                <line x1="30" y1="105" x2="60" y2="80" stroke="#2563eb" stroke-width="3" stroke-dasharray="4"/>
+            balok: `<svg viewBox="0 0 220 180" class="w-40 h-36 drop-shadow">
+                <polygon points="40,60 150,60 150,130 40,130" fill="#3b82f6" fill-opacity="0.2" stroke="#2563eb" stroke-width="3"/>
+                <polygon points="80,25 190,25 190,95 80,95" fill="#60a5fa" fill-opacity="0.3" stroke="#2563eb" stroke-width="3"/>
+                <line x1="40" y1="60" x2="80" y2="25" stroke="#2563eb" stroke-width="3"/>
+                <line x1="150" y1="60" x2="190" y2="25" stroke="#2563eb" stroke-width="3"/>
+                <line x1="150" y1="130" x2="190" y2="95" stroke="#2563eb" stroke-width="3"/>
+                <line x1="40" y1="130" x2="80" y2="95" stroke="#2563eb" stroke-width="3" stroke-dasharray="4"/>
             </svg>`,
-            tabung: `<svg viewBox="0 0 140 160" class="h-28 w-auto drop-shadow-md">
-                <ellipse cx="70" cy="35" rx="45" ry="16" fill="#6ee7b7" fill-opacity="0.6" stroke="#059669" stroke-width="3"/>
-                <path d="M 25,35 L 25,120 A 45,16 0 0,0 115,120 L 115,35" fill="#34d399" fill-opacity="0.4" stroke="#059669" stroke-width="3"/>
-                <ellipse cx="70" cy="120" rx="45" ry="16" fill="#6ee7b7" fill-opacity="0.6" stroke="#059669" stroke-width="3" stroke-dasharray="4"/>
+            'prisma-segitiga': `<svg viewBox="0 0 220 160" class="w-40 h-36 drop-shadow">
+                <polygon points="10,135 85,145 195,115 120,105" fill="#3b82f6" fill-opacity="0.1"/>
+                <polygon points="10,135 85,145 50,50" fill="#93c5fd" fill-opacity="0.8" stroke="#1e40af" stroke-width="2.5"/>
+                <polygon points="50,50 85,145 195,115 160,20" fill="#60a5fa" fill-opacity="0.65" stroke="#1e40af" stroke-width="2.5"/>
+                <line x1="160" y1="20" x2="195" y2="115" stroke="#1e40af" stroke-width="2.5"/>
+                <line x1="10" y1="135" x2="120" y2="105" stroke="#1e40af" stroke-width="2" stroke-dasharray="4,4"/>
+                <line x1="120" y1="105" x2="195" y2="115" stroke="#1e40af" stroke-width="2" stroke-dasharray="4,4"/>
+                <line x1="50" y1="50" x2="160" y2="20" stroke="#1e40af" stroke-width="2.5"/>
+                <line x1="160" y1="20" x2="120" y2="105" stroke="#1e40af" stroke-width="2" stroke-dasharray="4,4"/>
             </svg>`,
-            kerucut: `<svg viewBox="0 0 140 160" class="h-28 w-auto drop-shadow-md">
-                <ellipse cx="70" cy="125" rx="45" ry="16" fill="#fde047" fill-opacity="0.6" stroke="#d97706" stroke-width="3"/>
-                <path d="M 70,20 L 25,125 A 45,16 0 0,0 115,125 Z" fill="#fbbf24" fill-opacity="0.5" stroke="#d97706" stroke-width="3"/>
+            'prisma-segi-lima': `<svg viewBox="0 0 180 200" class="w-36 h-36 drop-shadow">
+                <polygon points="90,15 155,35 125,55 55,55 25,35" fill="#fbcfe8" fill-opacity="0.8" stroke="#831843" stroke-width="2.5"></polygon>
+                <polygon points="25,35 55,55 55,165 25,145" fill="#f472b6" fill-opacity="0.25" stroke="#831843" stroke-width="2.5"></polygon>
+                <polygon points="55,55 125,55 125,165 55,165" fill="#f472b6" fill-opacity="0.35" stroke="#831843" stroke-width="2.5"></polygon>
+                <polygon points="125,55 155,35 155,145 125,165" fill="#f472b6" fill-opacity="0.25" stroke="#831843" stroke-width="2.5"></polygon>
+                <line x1="90" y1="15" x2="90" y2="125" stroke="#831843" stroke-width="2.5" stroke-dasharray="4"></line>
+                <line x1="90" y1="125" x2="25" y2="145" stroke="#831843" stroke-width="2.5" stroke-dasharray="4"></line>
+                <line x1="90" y1="125" x2="155" y2="145" stroke="#831843" stroke-width="2.5" stroke-dasharray="4"></line>
+                <polyline points="25,145 55,165 125,165 155,145" fill="none" stroke="#831843" stroke-width="2.5"></polyline>
             </svg>`,
-            bola: `<svg viewBox="0 0 140 140" class="h-28 w-auto drop-shadow-md">
-                <circle cx="70" cy="70" r="50" fill="#fca5a5" fill-opacity="0.5" stroke="#dc2626" stroke-width="3"/>
-                <ellipse cx="70" cy="70" rx="50" ry="16" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="4"/>
+            'prisma-segi-enam': `<svg viewBox="0 0 200 210" class="w-36 h-36 drop-shadow">
+                <line x1="50" y1="35" x2="50" y2="135" stroke="#581c87" stroke-width="2" stroke-dasharray="4,4"/>
+                <line x1="150" y1="35" x2="150" y2="135" stroke="#581c87" stroke-width="2" stroke-dasharray="4,4"/>
+                <polyline points="20,60 50,35 150,35 180,60" fill="none" stroke="#581c87" stroke-width="2" stroke-dasharray="4,4"/>
+                <polyline points="20,160 50,135 150,135 180,160" fill="none" stroke="#581c87" stroke-width="2" stroke-dasharray="4,4"/>
+                <polygon points="20,60 60,85 60,185 20,160" fill="#c084fc" fill-opacity="0.5" stroke="#6b21a8" stroke-width="2.5"/>
+                <polygon points="60,85 140,85 140,185 60,185" fill="#a855f7" fill-opacity="0.4" stroke="#6b21a8" stroke-width="2.5"/>
+                <polygon points="140,85 180,60 180,160 140,185" fill="#9333ea" fill-opacity="0.55" stroke="#6b21a8" stroke-width="2.5"/>
+                <polygon points="50,35 150,35 180,60 140,85 60,85 20,60" fill="#e9d5ff" fill-opacity="0.8" stroke="#6b21a8" stroke-width="2.5"/>
+                <line x1="60" y1="85" x2="60" y2="185" stroke="#6b21a8" stroke-width="2.5"/>
+                <line x1="140" y1="85" x2="140" y2="185" stroke="#6b21a8" stroke-width="2.5"/>
+                <polyline points="20,160 60,185 140,185 180,160" fill="none" stroke="#6b21a8" stroke-width="2.5"/>
             </svg>`,
-            prismaSegitiga: `<svg viewBox="0 0 160 140" class="h-28 w-auto drop-shadow-md">
-                <polygon points="15,115 70,123 145,100 90,92" fill="#93c5fd" fill-opacity="0.2"/>
-                <polygon points="15,115 70,123 45,40" fill="#93c5fd" fill-opacity="0.8" stroke="#1e40af" stroke-width="2.5"/>
-                <polygon points="45,40 70,123 145,100 120,17" fill="#60a5fa" fill-opacity="0.65" stroke="#1e40af" stroke-width="2.5"/>
-                <line x1="120" y1="17" x2="145" y2="100" stroke="#1e40af" stroke-width="2.5"/>
-                <line x1="15" y1="115" x2="90" y2="92" stroke="#1e40af" stroke-width="2" stroke-dasharray="4"/>
-                <line x1="90" y1="92" x2="145" y2="100" stroke="#1e40af" stroke-width="2" stroke-dasharray="4"/>
-                <line x1="45" y1="40" x2="120" y2="17" stroke="#1e40af" stroke-width="2.5"/>
-                <line x1="120" y1="17" x2="90" y2="92" stroke="#1e40af" stroke-width="2" stroke-dasharray="4"/>
+            'limas-segitiga': `<svg viewBox="0 0 180 180" class="w-36 h-36 drop-shadow">
+                <polygon points="90,20 30,140 150,140" fill="#14b8a6" fill-opacity="0.2" stroke="#0d9488" stroke-width="3"/>
+                <line x1="90" y1="20" x2="90" y2="110" stroke="#0d9488" stroke-width="3" stroke-dasharray="4"/>
+                <line x1="30" y1="140" x2="90" y2="110" stroke="#0d9488" stroke-width="3" stroke-dasharray="4"/>
+                <line x1="150" y1="140" x2="90" y2="110" stroke="#0d9488" stroke-width="3"/>
             </svg>`,
-            limasSegiEmpat: `<svg viewBox="0 0 150 150" class="h-28 w-auto drop-shadow-md">
-                <polygon points="75,15 25,120 80,120 125,85" fill="#f0abfc" fill-opacity="0.4" stroke="#7e22ce" stroke-width="2.5"/>
-                <polygon points="75,15 25,120 80,120" fill="#e879f9" fill-opacity="0.7" stroke="#7e22ce" stroke-width="2.5"/>
-                <line x1="25" y1="120" x2="70" y2="85" stroke="#7e22ce" stroke-width="2.5" stroke-dasharray="4"/>
-                <line x1="70" y1="85" x2="125" y2="85" stroke="#7e22ce" stroke-width="2.5" stroke-dasharray="4"/>
+            'limas-segi-empat': `<svg viewBox="0 0 180 180" class="w-36 h-36 drop-shadow">
+                <polygon points="85,15 30,145 95,145 150,105" fill="#ebd5ff" fill-opacity="0.4" stroke="#7e22ce" stroke-width="2.5"/>
+                <polygon points="85,15 30,145 95,145" fill="#d8b4fe" fill-opacity="0.7" stroke="#7e22ce" stroke-width="2.5"/>
+                <line x1="30" y1="145" x2="85" y2="105" stroke="#7e22ce" stroke-width="2.5" stroke-dasharray="4"/>
+                <line x1="85" y1="105" x2="150" y2="105" stroke="#7e22ce" stroke-width="2.5" stroke-dasharray="4"/>
             </svg>`,
-            prismaSegiLima: `<svg viewBox="0 0 160 180" class="h-28 w-auto drop-shadow-md">
-                <polygon points="80,15 135,30 110,50 50,50 25,30" fill="#fbcfe8" fill-opacity="0.8" stroke="#831843" stroke-width="2.5"></polygon>
-                <polygon points="25,30 50,50 50,150 25,130" fill="#f472b6" fill-opacity="0.3" stroke="#831843" stroke-width="2.5"></polygon>
-                <polygon points="50,50 110,50 110,150 50,150" fill="#f472b6" fill-opacity="0.4" stroke="#831843" stroke-width="2.5"></polygon>
-                <polygon points="110,50 135,30 135,130 110,150" fill="#f472b6" fill-opacity="0.3" stroke="#831843" stroke-width="2.5"></polygon>
-                <line x1="80" y1="15" x2="80" y2="115" stroke="#831843" stroke-width="2.5" stroke-dasharray="4"></line>
-                <line x1="80" y1="115" x2="25" y2="130" stroke="#831843" stroke-width="2.5" stroke-dasharray="4"></line>
-                <line x1="80" y1="115" x2="135" y2="130" stroke="#831843" stroke-width="2.5" stroke-dasharray="4"></line>
-                <polyline points="25,130 50,150 110,150 135,130" fill="none" stroke="#831843" stroke-width="2.5"></polyline>
+            'limas-segi-lima': `<svg viewBox="0 0 200 200" class="w-36 h-36 drop-shadow">
+                <polyline points="30,130 100,105 170,130" fill="none" stroke="#0369a1" stroke-width="2" stroke-dasharray="4,4"/>
+                <line x1="100" y1="20" x2="100" y2="105" stroke="#0369a1" stroke-width="2" stroke-dasharray="4,4"/>
+                <line x1="100" y1="20" x2="100" y2="140" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="3,3"/>
+                <polygon points="100,20 30,130 65,175" fill="#7dd3fc" fill-opacity="0.45" stroke="#0284c7" stroke-width="2.5"/>
+                <polygon points="100,20 65,175 135,175" fill="#38bdf8" fill-opacity="0.65" stroke="#0284c7" stroke-width="2.5"/>
+                <polygon points="100,20 135,175 170,130" fill="#0284c7" fill-opacity="0.45" stroke="#0284c7" stroke-width="2.5"/>
+                <polyline points="30,130 65,175 135,175 170,130" fill="none" stroke="#0284c7" stroke-width="2.5"/>
+                <circle cx="100" cy="20" r="4" fill="#0369a1"/>
             </svg>`,
-            limasSegiLima: `<svg viewBox="0 0 160 160" class="h-28 w-auto drop-shadow-md">
-                <polyline points="25,105 80,85 135,105" fill="none" stroke="#0369a1" stroke-width="2" stroke-dasharray="4"/>
-                <line x1="80" y1="15" x2="80" y2="85" stroke="#0369a1" stroke-width="2" stroke-dasharray="4"/>
-                <polygon points="80,15 25,105 52,140" fill="#7dd3fc" fill-opacity="0.5" stroke="#0284c7" stroke-width="2.5"/>
-                <polygon points="80,15 52,140 108,140" fill="#38bdf8" fill-opacity="0.7" stroke="#0284c7" stroke-width="2.5"/>
-                <polygon points="80,15 108,140 135,105" fill="#0284c7" fill-opacity="0.5" stroke="#0284c7" stroke-width="2.5"/>
-                <polyline points="25,105 52,140 108,140 135,105" fill="none" stroke="#0284c7" stroke-width="2.5"/>
-                <circle cx="80" cy="15" r="3.5" fill="#0369a1"/>
+            'limas-segi-enam': `<svg viewBox="0 0 200 200" class="w-36 h-36 drop-shadow">
+                <polyline points="20,130 60,105 140,105 180,130" fill="none" stroke="#047857" stroke-width="2" stroke-dasharray="4,4"/>
+                <line x1="100" y1="20" x2="60" y2="105" stroke="#047857" stroke-width="2" stroke-dasharray="4,4"/>
+                <line x1="100" y1="20" x2="140" y2="105" stroke="#047857" stroke-width="2" stroke-dasharray="4,4"/>
+                <line x1="100" y1="20" x2="100" y2="140" stroke="#059669" stroke-width="1.5" stroke-dasharray="3,3"/>
+                <polygon points="100,20 20,130 60,175" fill="#6ee7b7" fill-opacity="0.45" stroke="#047857" stroke-width="2.5"/>
+                <polygon points="100,20 60,175 140,175" fill="#34d399" fill-opacity="0.6" stroke="#047857" stroke-width="2.5"/>
+                <polygon points="100,20 140,175 180,130" fill="#10b981" fill-opacity="0.4" stroke="#047857" stroke-width="2.5"/>
+                <polyline points="20,130 60,175 140,175 180,130" fill="none" stroke="#047857" stroke-width="2.5"/>
+                <circle cx="100" cy="20" r="4" fill="#065f46"/>
+            </svg>`,
+            tabung: `<svg viewBox="0 0 180 180" class="w-36 h-36 drop-shadow">
+                <ellipse cx="90" cy="40" rx="50" ry="18" fill="#10b981" fill-opacity="0.3" stroke="#059669" stroke-width="3"/>
+                <path d="M 40,40 L 40,130 A 50,18 0 0,0 140,130 L 140,40" fill="#34d399" fill-opacity="0.2" stroke="#059669" stroke-width="3"/>
+                <ellipse cx="90" cy="130" rx="50" ry="18" fill="#10b981" fill-opacity="0.4" stroke="#059669" stroke-width="3" stroke-dasharray="4"/>
+            </svg>`,
+            kerucut: `<svg viewBox="0 0 180 180" class="w-36 h-36 drop-shadow">
+                <ellipse cx="90" cy="130" rx="50" ry="18" fill="#f59e0b" fill-opacity="0.3" stroke="#d97706" stroke-width="3"/>
+                <path d="M 90,20 L 40,130 A 50,18 0 0,0 140,130 Z" fill="#fbbf24" fill-opacity="0.3" stroke="#d97706" stroke-width="3"/>
+            </svg>`,
+            bola: `<svg viewBox="0 0 180 180" class="w-36 h-36 drop-shadow">
+                <circle cx="90" cy="90" r="60" fill="#ef4444" fill-opacity="0.25" stroke="#dc2626" stroke-width="3"/>
+                <ellipse cx="90" cy="90" rx="60" ry="20" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="4"/>
             </svg>`
         };
 
-        // -----------------------------------------------------------------
-        // 30 SOAL ESSAY RAMAH ANAK KELAS 4 SD (CIRI, TEBAK, BENDA SEKITAR)
-        // -----------------------------------------------------------------
-        const questionsData = [
-            // Kategori 1: Ciri-Ciri Bangun Ruang (Dengan Gambar SVG) (1-10)
+        // SEED DATA 30 SOAL ESSAY (ACAK DAN BERVARIASI)
+        const rawQuestions = [
+            // --- KELOMPOK 1: IDENTIFIKASI VISUAL (12 SOAL - MEMATUHI FORMAT UI CONTOH SEPERTI GAMBAR DENGAN 4 KOLOM ISIAN) ---
+            { type: 'visual', shapeKey: 'kubus', name: 'Kubus', sisi: 6, rusuk: 12, sudut: 8 },
+            { type: 'visual', shapeKey: 'balok', name: 'Balok', sisi: 6, rusuk: 12, sudut: 8 },
+            { type: 'visual', shapeKey: 'prisma-segitiga', name: 'Prisma Segitiga', sisi: 5, rusuk: 9, sudut: 6 },
+            { type: 'visual', shapeKey: 'prisma-segi-lima', name: 'Prisma Segi Lima', sisi: 7, rusuk: 15, sudut: 10 },
+            { type: 'visual', shapeKey: 'prisma-segi-enam', name: 'Prisma Segi Enam', sisi: 8, rusuk: 18, sudut: 12 },
+            { type: 'visual', shapeKey: 'limas-segitiga', name: 'Limas Segitiga', sisi: 4, rusuk: 6, sudut: 4 },
+            { type: 'visual', shapeKey: 'limas-segi-empat', name: 'Limas Segi Empat', sisi: 5, rusuk: 8, sudut: 5 },
+            { type: 'visual', shapeKey: 'limas-segi-lima', name: 'Limas Segi Lima', sisi: 6, rusuk: 10, sudut: 6 },
+            { type: 'visual', shapeKey: 'limas-segi-enam', name: 'Limas Segi Enam', sisi: 7, rusuk: 12, sudut: 7 },
+            { type: 'visual', shapeKey: 'tabung', name: 'Tabung', sisi: 3, rusuk: 2, sudut: 0 },
+            { type: 'visual', shapeKey: 'kerucut', name: 'Kerucut', sisi: 2, rusuk: 1, sudut: 1 },
+            { type: 'visual', shapeKey: 'bola', name: 'Bola', sisi: 1, rusuk: 0, sudut: 0 },
+
+            // --- KELOMPOK 2: RIDDLE / TEKA-TEKI (9 SOAL) ---
             {
-                id: 1,
-                category: "🔍 Ciri-Ciri Bangun Ruang",
-                q: "Perhatikan gambar KUBUS ini! Ada berapa jumlah SISI (bidang datar) yang dimiliki oleh sebuah kubus?",
-                svgKey: "kubus",
-                keywords: ["6", "6 sisi", "enam"],
-                explanation: "Hebat! Kubus memiliki 6 bidang sisi berbentuk persegi yang semuanya sama besar."
+                type: 'riddle',
+                question: 'Aku memiliki 2 bidang identik berbentuk segitiga di bagian atas dan bawah, serta 3 bidang persegi panjang sebagai sisi tegak. Bangun apakah aku?',
+                answer: 'Prisma Segitiga',
+                alias: ['prisma segitiga']
             },
             {
-                id: 2,
-                category: "🔍 Ciri-Ciri Bangun Ruang",
-                q: "Lihat gambar BALOK di bawah ini! Berapakah jumlah garis RUSUK yang dimiliki oleh sebuah balok?",
-                svgKey: "balok",
-                keywords: ["12", "12 rusuk", "dua belas"],
-                explanation: "Pintar! Balok memiliki 12 garis rusuk (4 rusuk panjang, 4 rusuk lebar, dan 4 rusuk tinggi)."
+                type: 'riddle',
+                question: 'Aku hanya memiliki 1 sisi lengkung, 0 rusuk, dan 0 titik sudut. Permukaanku berjarak sama ke titik pusat. Siapakah aku?',
+                answer: 'Bola',
+                alias: ['bola']
             },
             {
-                id: 3,
-                category: "🔍 Ciri-Ciri Bangun Ruang",
-                q: "Perhatikan gambar TABUNG ini. Berapakah jumlah TITIK SUDUT (pojokan tajam) yang dimiliki oleh tabung?",
-                svgKey: "tabung",
-                keywords: ["0", "nol", "tidak ada"],
-                explanation: "Tepat sekali! Tabung adalah bangun ruang sisi lengkung dan TIDAK MEMILIKI titik sudut sama sekali (0 titik sudut)."
+                type: 'riddle',
+                question: 'Aku memiliki alas berbentuk segi empat dan 4 buah sisi tegak berbentuk segitiga yang saling bertemu di satu titik puncak. Bangun apakah aku?',
+                answer: 'Limas Segi Empat',
+                alias: ['limas segi empat', 'limas segiempat']
             },
             {
-                id: 4,
-                category: "🔍 Ciri-Ciri Bangun Ruang",
-                q: "Perhatikan gambar KERUCUT ini! Berapa jumlah titik sudut (puncak) pada kerucut?",
-                svgKey: "kerucut",
-                keywords: ["1", "satu", "1 titik"],
-                explanation: "Bagus! Kerucut memiliki 1 titik sudut yang berada di puncaknya."
+                type: 'riddle',
+                question: 'Aku dibatasi oleh 6 sisi persegi yang sama besar dan kongruen. Memiliki 12 rusuk sama panjang dan 8 titik sudut. Bangun apakah aku?',
+                answer: 'Kubus',
+                alias: ['kubus']
             },
             {
-                id: 5,
-                category: "🔍 Ciri-Ciri Bangun Ruang",
-                q: "Perhatikan gambar BOLA ini! Ada berapa jumlah bidang SISI lengkung pada bola?",
-                svgKey: "bola",
-                keywords: ["1", "satu", "1 sisi"],
-                explanation: "Benar! Bola hanya diselimuti oleh 1 permukaan sisi lengkung."
+                type: 'riddle',
+                question: 'Aku memiliki 2 rusuk lengkung, 3 sisi (alas dan tutup lingkaran serta selimut lengkung), tetapi aku TIDAK memiliki titik sudut sama sekali. Bangun apakah aku?',
+                answer: 'Tabung',
+                alias: ['tabung', 'silinder']
             },
             {
-                id: 6,
-                category: "🔍 Ciri-Ciri Bangun Ruang",
-                q: "Lihat PRISMA SEGITIGA ini! Bentuk apakah bidang alas dan bidang tutupnya?",
-                svgKey: "prismaSegitiga",
-                keywords: ["segitiga", "segi tiga"],
-                explanation: "Tepat! Alas dan tutup prisma segitiga selalu berbentuk segitiga yang identik."
+                type: 'riddle',
+                question: 'Aku memiliki alas berbentuk lingkaran, 1 sisi selimut lengkung, 1 rusuk lengkung, dan 1 titik puncak di atas. Siapakah aku?',
+                answer: 'Kerucut',
+                alias: ['kerucut']
             },
             {
-                id: 7,
-                category: "🔍 Ciri-Ciri Bangun Ruang",
-                q: "Perhatikan LIMAS SEGI EMPAT di bawah! Bentuk apakah 4 sisi tegaknya?",
-                svgKey: "limasSegiEmpat",
-                keywords: ["segitiga", "segi tiga"],
-                explanation: "Hebat! Sisi tegak pada bangun limas selalu berbentuk segitiga."
+                type: 'riddle',
+                question: 'Aku memiliki 8 sisi (2 alas/tutup segi enam dan 6 sisi tegak persegi panjang) serta 18 rusuk dan 12 titik sudut. Siapakah aku?',
+                answer: 'Prisma Segi Enam',
+                alias: ['prisma segi enam', 'prisma segienam']
             },
             {
-                id: 8,
-                category: "🔍 Ciri-Ciri Bangun Ruang",
-                q: "Perhatikan KUBUS lagi! Apakah semua panjang rusuk pada kubus ukurannya sama panjang? (Jawab: Sama atau Beda)",
-                svgKey: "kubus",
-                keywords: ["sama", "sama panjang"],
-                explanation: "Pintar! Seluruh 12 rusuk pada kubus memiliki ukuran yang SAMA panjang."
+                type: 'riddle',
+                question: 'Aku memiliki total 4 sisi berbentuk segitiga, 6 rusuk, dan 4 titik sudut. Sering disebut juga dengan nama Tetrahedron. Siapakah aku?',
+                answer: 'Limas Segitiga',
+                alias: ['limas segitiga']
             },
             {
-                id: 9,
-                category: "🔍 Ciri-Ciri Bangun Ruang",
-                q: "Lihat PRISMA SEGI LIMA ini! Berapakah jumlah titik sudut di bagian atas dan bawah jika digabungkan?",
-                svgKey: "prismaSegiLima",
-                keywords: ["10", "sepuluh", "10 titik"],
-                explanation: "Benar! Ada 5 titik sudut di alas bawah dan 5 titik sudut di tutup atas, totalnya ada 10 titik sudut."
-            },
-            {
-                id: 10,
-                category: "🔍 Ciri-Ciri Bangun Ruang",
-                q: "Lihat LIMAS SEGI LIMA ini! Ada berapa banyak segitiga di sisi tegaknya?",
-                svgKey: "limasSegiLima",
-                keywords: ["5", "lima", "5 segitiga"],
-                explanation: "Tepat! Karena alasnya segi lima, maka ada 5 sisi tegak berbentuk segitiga."
+                type: 'riddle',
+                question: 'Aku dibentuk oleh 3 pasang sisi persegi panjang yang sejajar dan sama besar secara berhadapan. Aku memiliki 12 rusuk dan 8 titik sudut. Bangun apakah aku?',
+                answer: 'Balok',
+                alias: ['balok']
             },
 
-            // Kategori 2: Tebak Nama Bangun Ruang (11-20)
+            // --- KELOMPOK 3: PENERAPAN KEHIDUPAN NYATA (9 SOAL) ---
             {
-                id: 11,
-                category: "🧩 Tebak Nama Bangun",
-                q: "Aku punya 6 sisi berbentuk persegi yang ukurannya sama persis. Bentukku seperti dadu mainan. Siapakah aku?",
-                keywords: ["kubus"],
-                explanation: "Jawabanmu benar! Aku adalah KUBUS."
+                type: 'penerapan',
+                question: 'Dika membeli sebuah dadu permainan standar. Bentuk bangun ruang apakah yang diwakili oleh dadu tersebut?',
+                answer: 'Kubus',
+                alias: ['kubus']
             },
             {
-                id: 12,
-                category: "🧩 Tebak Nama Bangun",
-                q: "Aku punya alas dan tutup berbentuk lingkaran yang sejajar, tapi tidak punya titik sudut. Bentukku seperti kaleng biskuit. Siapakah aku?",
-                keywords: ["tabung", "silinder"],
-                explanation: "Hore! Aku adalah TABUNG."
+                type: 'penerapan',
+                question: 'Kemasan kaleng susu kental manis berbentuk bangun ruang yang memiliki alas lingkaran dan selimut lengkung. Apakah nama bangun ruang tersebut?',
+                answer: 'Tabung',
+                alias: ['tabung', 'silinder']
             },
             {
-                id: 13,
-                category: "🧩 Tebak Nama Bangun",
-                q: "Aku mirip kotak sepatu. Punya 6 sisi, 12 rusuk, dan 8 titik sudut. Sisi-sisiku berbentuk persegi panjang. Siapakah aku?",
-                keywords: ["balok"],
-                explanation: "Hebat! Aku adalah BALOK."
+                type: 'penerapan',
+                question: 'Topi ulang tahun anak-anak atau caping petani biasanya menyerupai bangun ruang sisi lengkung dengan satu puncak lancip. Apakah nama bangun tersebut?',
+                answer: 'Kerucut',
+                alias: ['kerucut']
             },
             {
-                id: 14,
-                category: "🧩 Tebak Nama Bangun",
-                q: "Alasku berbentuk lingkaran dan bagian atasku lancip (punya 1 puncak). Bentukku seperti topi ulang tahun. Siapakah aku?",
-                keywords: ["kerucut"],
-                explanation: "Tepat sekali! Aku adalah KERUCUT."
+                type: 'penerapan',
+                question: 'Benda seperti kelereng, bola basket, dan bola sepak merepresentasikan bentuk bangun ruang...?',
+                answer: 'Bola',
+                alias: ['bola']
             },
             {
-                id: 15,
-                category: "🧩 Tebak Nama Bangun",
-                q: "Aku bulat sempurna dari segala sisi dan sering dipakai untuk berolahraga sepak bola. Siapakah aku?",
-                keywords: ["bola"],
-                explanation: "Mantap! Aku adalah BOLA."
+                type: 'penerapan',
+                question: 'Kotak sepatu dan dus pasta gigi umumnya merupakan contoh benda berbentuk bangun ruang...?',
+                answer: 'Balok',
+                alias: ['balok']
             },
             {
-                id: 16,
-                category: "🧩 Tebak Nama Bangun",
-                q: "Aku punya alas berbentuk segitiga dan 3 sisi tegak segitiga yang kuncup ke satu titik di atas. Siapakah aku?",
-                keywords: ["limas segitiga", "limas segitingga"],
-                explanation: "Pintar! Aku adalah LIMAS SEGITIGA."
+                type: 'penerapan',
+                question: 'Atap rumah yang berbentuk tenda perkemahan umum memiliki 2 sisi segitiga dan 3 sisi tegak datar. Bentuk tersebut merepresentasikan bangun ruang...?',
+                answer: 'Prisma Segitiga',
+                alias: ['prisma segitiga']
             },
             {
-                id: 17,
-                category: "🧩 Tebak Nama Bangun",
-                q: "Alas dan tutupku berbentuk segitiga yang sama, disambungkan oleh 3 dinding persegi panjang. Bentukku seperti atap rumah sederhana. Siapakah aku?",
-                keywords: ["prisma segitiga"],
-                explanation: "Bagus sekali! Aku adalah PRISMA SEGITIGA."
+                type: 'penerapan',
+                question: 'Piramida Agung di Mesir memiliki alas berbentuk persegi dan empat dinding samping segitiga yang bertemu di satu puncak. Bangun ruang apakah yang direpresentasikan?',
+                answer: 'Limas Segi Empat',
+                alias: ['limas segi empat', 'limas segiempat']
             },
             {
-                id: 18,
-                category: "🧩 Tebak Nama Bangun",
-                q: "Bangun ruang manakah yang TIDAK MEMILIKI rusuk dan titik sudut sama sekali?",
-                keywords: ["bola"],
-                explanation: "Tepat! BOLA tidak memiliki rusuk maupun titik sudut."
+                type: 'penerapan',
+                question: 'Sebuah tempat pensil berbentuk prisma dengan alas berbentuk segi lima. Berapakah jumlah titik sudut yang dimiliki tempat pensil tersebut?',
+                answer: '10',
+                alias: ['10', 'sepuluh']
             },
             {
-                id: 19,
-                category: "🧩 Tebak Nama Bangun",
-                q: "Aku adalah bangun ruang piramida mesir. Alasku berbentuk segi empat dan puncaknya lancip di atas. Siapakah aku?",
-                keywords: ["limas segi empat", "limas segiempat"],
-                explanation: "Benar! Piramida Mesir berbentuk LIMAS SEGI EMPAT."
-            },
-            {
-                id: 20,
-                category: "🧩 Tebak Nama Bangun",
-                q: "Aku punya alas dan tutup berbentuk segi enam beraturan. Siapakah aku?",
-                keywords: ["prisma segi enam", "prisma segienam"],
-                explanation: "Hebat! Aku adalah PRISMA SEGI ENAM."
-            },
-
-            // Kategori 3: Benda Di Sekitar Kita (21-30)
-            {
-                id: 21,
-                category: "🏠 Benda di Sekitar Kita",
-                q: "Dadu permainan ular tangga berbentuk bangun ruang apa?",
-                keywords: ["kubus"],
-                explanation: "Tepat! Dadu berbentuk Kubus."
-            },
-            {
-                id: 22,
-                category: "🏠 Benda di Sekitar Kita",
-                q: "Kaleng susu kental manis dan kaleng soda berbentuk bangun ruang apa?",
-                keywords: ["tabung", "silinder"],
-                explanation: "Bagus! Kaleng susu berbentuk Tabung."
-            },
-            {
-                id: 23,
-                category: "🏠 Benda di Sekitar Kita",
-                q: "Topi ulang tahun anak-anak dan es krim corong menyerupai bentuk apa?",
-                keywords: ["kerucut"],
-                explanation: "Pintar! Menyerupai bentuk Kerucut."
-            },
-            {
-                id: 24,
-                category: "🏠 Benda di Sekitar Kita",
-                q: "Kotak tempat pensil atau kotak pasta gigi berbentuk bangun ruang apa?",
-                keywords: ["balok"],
-                explanation: "Benar! Tempat pensil/pasta gigi berbentuk Balok."
-            },
-            {
-                id: 25,
-                category: "🏠 Benda di Sekitar Kita",
-                q: "Kelereng mainan dan kelereng kaca berbentuk bangun ruang apa?",
-                keywords: ["bola"],
-                explanation: "Tepat! Kelereng berbentuk Bola."
-            },
-            {
-                id: 26,
-                category: "🏠 Benda di Sekitar Kita",
-                q: "Atap rumah atau tenda perkemahan yang bagian depannya segitiga menyerupai bentuk apa?",
-                keywords: ["prisma segitiga"],
-                explanation: "Hebat! Menyerupai bentuk Prisma Segitiga."
-            },
-            {
-                id: 27,
-                category: "🏠 Benda di Sekitar Kita",
-                q: "Kerucut pembatas jalan berwarna oranye di jalan raya (traffic cone) menyerupai bentuk apa?",
-                keywords: ["kerucut"],
-                explanation: "Bagus! Pembatas jalan tersebut berbentuk Kerucut."
-            },
-            {
-                id: 28,
-                category: "🏠 Benda di Sekitar Kita",
-                q: "Almari pakaian di kamar tidurmu biasanya berbentuk bangun ruang apa?",
-                keywords: ["balok"],
-                explanation: "Tepat! Lemari pakaian berbentuk Balok."
-            },
-            {
-                id: 29,
-                category: "🏠 Benda di Sekitar Kita",
-                q: "Kotak Kado ulang tahun yang panjang, lebar, dan tingginya sama persis berbentuk bangun ruang apa?",
-                keywords: ["kubus"],
-                explanation: "Pintar! Kotak kado tersebut berbentuk Kubus."
-            },
-            {
-                id: 30,
-                category: "🏠 Benda di Sekitar Kita",
-                q: "Buah semangka yang bulat utuh menyerupai bentuk bangun ruang apa?",
-                keywords: ["bola"],
-                explanation: "Hore! Semangka bulat menyerupai bentuk BOLA."
+                type: 'penerapan',
+                question: 'Sebuah monumen memiliki alas berbentuk segi enam dan berbentuk lancip di bagian puncaknya. Berapakah jumlah total rusuk yang dimiliki monumen limas segi enam tersebut?',
+                answer: '12',
+                alias: ['12', 'dua belas']
             }
         ];
 
-        // -----------------------------------------------------------------
-        // STATE MANAGEMENT & INDEXEDDB (Tahan Reload / Offline)
-        // -----------------------------------------------------------------
+        // STATE MANAGEMENT
+        let questions = [];
         let currentIndex = 0;
-        let userState = {}; 
+        let userState = {}; // { qIndex: { status: 'correct'|'wrong', userAns: {...} } }
 
-        const DB_NAME = "KuisBangunRuangSDDB";
-        const STORE_NAME = "user_answers_sd";
-        let db;
-
-        // Init IndexedDB
-        function initDB() {
-            return new Promise((resolve, reject) => {
-                const request = indexedDB.open(DB_NAME, 1);
-                request.onupgradeneeded = (e) => {
-                    const dbInstance = e.target.result;
-                    if (!dbInstance.objectStoreNames.contains(STORE_NAME)) {
-                        dbInstance.createObjectStore(STORE_NAME, { keyPath: "id" });
-                    }
-                };
-                request.onsuccess = (e) => {
-                    db = e.target.result;
-                    resolve(db);
-                };
-                request.onerror = (e) => reject("Gagal membuka IndexedDB");
-            });
+        // ALGORITMA PSEUDO-RANDOM SHUFFLE DENGAN SEED AGAR URUTAN ACAK KONSISTEN PADA PENGGUNA
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
         }
 
-        async function loadStateFromDB() {
-            if (!db) return;
-            return new Promise((resolve) => {
-                const transaction = db.transaction([STORE_NAME], "readonly");
-                const store = transaction.objectStore(STORE_NAME);
-                const request = store.getAll();
-                request.onsuccess = () => {
-                    const records = request.result || [];
-                    records.forEach(r => {
-                        userState[r.id] = r;
-                    });
-                    resolve();
-                };
-            });
-        }
+        // INITIALIZATION
+        function initApp() {
+            // Load state from LocalStorage if available
+            const savedState = localStorage.getItem('quiz_bangun_ruang_state_v1');
+            const savedQuestions = localStorage.getItem('quiz_bangun_ruang_questions_v1');
 
-        async function saveQuestionStateToDB(qId, stateObj) {
-            if (!db) return;
-            const transaction = db.transaction([STORE_NAME], "readwrite");
-            const store = transaction.objectStore(STORE_NAME);
-            store.put({ id: qId, ...stateObj });
-        }
-
-        async function clearDB() {
-            if (!db) return;
-            const transaction = db.transaction([STORE_NAME], "readwrite");
-            const store = transaction.objectStore(STORE_NAME);
-            store.clear();
-        }
-
-        // -----------------------------------------------------------------
-        // UI RENDERING & INTERACTION LOGIC
-        // -----------------------------------------------------------------
-        function renderNavGrid() {
-            const container = document.getElementById("navGrid");
-            container.innerHTML = questionsData.map((q, idx) => {
-                const state = userState[q.id];
-                let bgClass = "bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200";
-                
-                if (state && state.isSubmitted) {
-                    if (state.isCorrect) {
-                        bgClass = "bg-emerald-500 text-white font-bold border-emerald-600 shadow-sm";
-                    } else {
-                        bgClass = "bg-rose-500 text-white font-bold border-rose-600 shadow-sm";
-                    }
-                }
-
-                const isCurrent = idx === currentIndex;
-                const activeRing = isCurrent ? "ring-4 ring-amber-400 scale-105 z-10" : "";
-
-                return `
-                    <button 
-                        onclick="jumpToQuestion(${idx})" 
-                        class="h-10 text-xs rounded-xl font-extrabold border-2 transition-all flex items-center justify-center btn-bounce ${bgClass} ${activeRing}">
-                        ${idx + 1}
-                    </button>
-                `;
-            }).join('');
-
-            updateScoreHeader();
-        }
-
-        function updateScoreHeader() {
-            let answered = 0;
-            let correct = 0;
-
-            Object.values(userState).forEach(st => {
-                if (st.isSubmitted) {
-                    answered++;
-                    if (st.isCorrect) correct++;
-                }
-            });
-
-            document.getElementById("answeredCount").innerText = answered;
-            document.getElementById("totalScore").innerText = Math.round((correct / 30) * 100);
-        }
-
-        function renderCurrentQuestion() {
-            const q = questionsData[currentIndex];
-            const state = userState[q.id] || { answer: "", isSubmitted: false, isCorrect: false };
-
-            document.getElementById("qCategory").innerText = q.category;
-            document.getElementById("qNumberText").innerText = `Soal ${currentIndex + 1} dari 30`;
-            document.getElementById("qTitle").innerText = `${currentIndex + 1}. ${q.q}`;
-
-            // Render SVG Visual if present
-            const visualBox = document.getElementById("shapeVisualContainer");
-            if (q.svgKey && shapeSvgs[q.svgKey]) {
-                visualBox.innerHTML = shapeSvgs[q.svgKey];
-                visualBox.classList.remove("hidden");
+            if (savedQuestions) {
+                questions = JSON.parse(savedQuestions);
             } else {
-                visualBox.innerHTML = "";
-                visualBox.classList.add("hidden");
+                // Acak urutan soal sesuai permintaan
+                questions = shuffleArray(rawQuestions);
+                localStorage.setItem('quiz_bangun_ruang_questions_v1', JSON.stringify(questions));
             }
 
-            const inputEl = document.getElementById("userAnswerInput");
-            inputEl.value = state.answer || "";
-
-            const submitBtn = document.getElementById("btnSubmitAnswer");
-            const feedbackEl = document.getElementById("feedbackContainer");
-            const feedbackTitle = document.getElementById("feedbackTitle");
-            const feedbackExp = document.getElementById("feedbackExplanation");
-
-            if (state.isSubmitted) {
-                inputEl.disabled = true;
-                inputEl.classList.add("bg-slate-100", "cursor-not-allowed");
-                submitBtn.disabled = true;
-                submitBtn.classList.add("opacity-50", "cursor-not-allowed");
-                submitBtn.innerText = "Sudah Dijawab ✓";
-
-                feedbackEl.classList.remove("hidden");
-                if (state.isCorrect) {
-                    feedbackEl.className = "mt-6 p-5 rounded-2xl border-2 bg-emerald-50 text-emerald-950 border-emerald-300 shadow-sm";
-                    feedbackTitle.innerHTML = `<span class="text-2xl">🎉</span> Hore! Jawabanmu Benar!`;
-                } else {
-                    feedbackEl.className = "mt-6 p-5 rounded-2xl border-2 bg-rose-50 text-rose-950 border-rose-300 shadow-sm";
-                    feedbackTitle.innerHTML = `<span class="text-2xl">💡</span> Hampir Tepat! Yuk Belajar Lagi`;
-                }
-                feedbackExp.innerText = q.explanation;
-            } else {
-                inputEl.disabled = false;
-                inputEl.classList.remove("bg-slate-100", "cursor-not-allowed");
-                submitBtn.disabled = false;
-                submitBtn.classList.remove("opacity-50", "cursor-not-allowed");
-                submitBtn.innerText = "🚀 Jawab Soal Ini";
-                feedbackEl.classList.add("hidden");
+            if (savedState) {
+                userState = JSON.parse(savedState);
             }
 
-            // Prev / Next button states
-            document.getElementById("btnPrev").disabled = currentIndex === 0;
-            document.getElementById("btnPrev").classList.toggle("opacity-40", currentIndex === 0);
+            renderNavGrid();
+            loadQuestion(0);
+            updateStats();
+        }
 
-            document.getElementById("btnNext").disabled = currentIndex === questionsData.length - 1;
-            document.getElementById("btnNext").classList.toggle("opacity-40", currentIndex === questionsData.length - 1);
-
+        function saveState() {
+            localStorage.setItem('quiz_bangun_ruang_state_v1', JSON.stringify(userState));
+            updateStats();
             renderNavGrid();
         }
 
-        async function submitCurrentAnswer() {
-            const q = questionsData[currentIndex];
-            const inputEl = document.getElementById("userAnswerInput");
-            const rawAnswer = inputEl.value.trim().toLowerCase();
+        function resetAllProgress() {
+            if (confirm('Apakah Anda yakin ingin mereset semua jawaban yang telah diisi?')) {
+                localStorage.removeItem('quiz_bangun_ruang_state_v1');
+                localStorage.removeItem('quiz_bangun_ruang_questions_v1');
+                userState = {};
+                questions = shuffleArray(rawQuestions);
+                localStorage.setItem('quiz_bangun_ruang_questions_v1', JSON.stringify(questions));
+                currentIndex = 0;
+                renderNavGrid();
+                loadQuestion(0);
+                updateStats();
+            }
+        }
 
-            if (!rawAnswer) {
-                inputEl.focus();
-                inputEl.classList.add("ring-4", "ring-rose-400");
-                setTimeout(() => inputEl.classList.remove("ring-4", "ring-rose-400"), 1500);
-                return;
+        // RENDER NAV GRID
+        function renderNavGrid() {
+            const grid = document.getElementById('navGrid');
+            grid.innerHTML = questions.map((q, idx) => {
+                const state = userState[idx];
+                let bgClass = "bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200";
+                
+                if (state) {
+                    if (state.status === 'correct') {
+                        bgClass = "bg-emerald-500 text-white font-bold border-emerald-600";
+                    } else if (state.status === 'wrong') {
+                        bgClass = "bg-rose-500 text-white font-bold border-rose-600";
+                    }
+                }
+
+                if (idx === currentIndex) {
+                    bgClass += " ring-2 ring-indigo-600 ring-offset-2";
+                }
+
+                return `<button onclick="jumpToQuestion(${idx})" class="w-full h-10 rounded-xl text-xs sm:text-sm font-semibold transition-all border ${bgClass} flex items-center justify-center">
+                    ${idx + 1}
+                </button>`;
+            }).join('');
+        }
+
+        // UPDATE STATS & PROGRESS BAR
+        function updateStats() {
+            const total = questions.length;
+            const answeredCount = Object.keys(userState).length;
+            let correctCount = 0;
+
+            Object.values(userState).forEach(st => {
+                if (st.status === 'correct') correctCount++;
+            });
+
+            document.getElementById('statAnswered').innerText = `${answeredCount} / ${total}`;
+            document.getElementById('statCorrect').innerText = correctCount;
+
+            const percent = Math.round((answeredCount / total) * 100);
+            document.getElementById('progressPercent').innerText = `${percent}%`;
+            document.getElementById('progressBar').style.width = `${percent}%`;
+        }
+
+        // LOAD QUESTION AT INDEX
+        function loadQuestion(index) {
+            currentIndex = index;
+            const q = questions[index];
+            const savedState = userState[index];
+
+            // Header Elements
+            document.getElementById('questionNumberTitle').innerText = `Soal ${index + 1} dari ${questions.length}`;
+            
+            const categoryTag = document.getElementById('questionCategoryTag');
+            if (q.type === 'visual') {
+                categoryTag.innerText = "Type: Identifikasi Gambar";
+                categoryTag.className = "px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-extrabold rounded-full uppercase tracking-wider";
+            } else if (q.type === 'riddle') {
+                categoryTag.innerText = "Type: Riddle / Teka-Teki";
+                categoryTag.className = "px-3 py-1 bg-purple-50 text-purple-700 text-xs font-extrabold rounded-full uppercase tracking-wider";
+            } else {
+                categoryTag.innerText = "Type: Penerapan Konsep";
+                categoryTag.className = "px-3 py-1 bg-amber-50 text-amber-700 text-xs font-extrabold rounded-full uppercase tracking-wider";
             }
 
-            // Check if answer contains any matching keywords
-            const isCorrect = q.keywords.some(kw => rawAnswer.includes(kw.toLowerCase()));
+            // Container Area
+            const contentArea = document.getElementById('questionContentArea');
+            contentArea.innerHTML = '';
 
-            const stateObj = {
-                answer: inputEl.value,
-                isSubmitted: true,
-                isCorrect: isCorrect
+            if (q.type === 'visual') {
+                // EXPOSING EXACT LAYOUT LIKE USER DESIGN IMAGE EXAMPLE
+                const valNama = savedState ? (savedState.userAns.nama || '') : '';
+                const valSisi = savedState ? (savedState.userAns.sisi || '') : '';
+                const valRusuk = savedState ? (savedState.userAns.rusuk || '') : '';
+                const valSudut = savedState ? (savedState.userAns.sudut || '') : '';
+
+                contentArea.innerHTML = `
+                    <!-- Box Utama: SVG di kiri, Kalimat Soal di kanan -->
+                    <div class="p-6 bg-slate-50 border border-slate-200 rounded-3xl flex flex-col sm:flex-row items-center gap-6">
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex justify-center items-center shrink-0">
+                            ${SVG_ASSETS[q.shapeKey]}
+                        </div>
+                        <div class="text-slate-800 text-base sm:text-lg font-bold leading-relaxed">
+                            Perhatikan gambar di samping. Tuliskan nama bangun ruang beserta jumlah sisi, rusuk, dan titik sudutnya!
+                        </div>
+                    </div>
+
+                    <!-- 4 Kolom Input Di Bawahnya (Clear tanpa contoh isian) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Nama Bangun:</label>
+                            <input type="text" id="inputNama" value="${valNama}" 
+                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Jumlah Sisi:</label>
+                            <input type="number" id="inputSisi" value="${valSisi}" 
+                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Jumlah Rusuk:</label>
+                            <input type="number" id="inputRusuk" value="${valRusuk}" 
+                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Titik Sudut:</label>
+                            <input type="number" id="inputSudut" value="${valSudut}" 
+                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Riddle or Penerapan Text Essay Question (Clear tanpa contoh isian)
+                const valAns = savedState ? (savedState.userAns.text || '') : '';
+                contentArea.innerHTML = `
+                    <div class="p-6 bg-slate-50 border border-slate-200 rounded-3xl space-y-3">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-100 px-2.5 py-1 rounded-lg inline-block">Pertanyaan Essay</span>
+                        <p class="text-base sm:text-lg font-bold text-slate-800 leading-relaxed">${q.question}</p>
+                    </div>
+
+                    <div class="pt-2">
+                        <label class="block text-xs font-bold text-slate-700 mb-1.5">Jawaban Anda:</label>
+                        <input type="text" id="inputTextAns" value="${valAns}" 
+                            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                `;
+            }
+
+            // Feedback Display
+            const feedbackBox = document.getElementById('feedbackBox');
+            if (savedState) {
+                renderFeedback(savedState);
+            } else {
+                feedbackBox.className = "hidden";
+            }
+
+            // Nav Controls State
+            document.getElementById('btnPrev').disabled = (index === 0);
+            document.getElementById('btnNext').disabled = (index === questions.length - 1);
+            
+            renderNavGrid();
+        }
+
+        // NORMALIZATION HELPER FOR STRING CHECKING
+        function normalizeText(text) {
+            if (!text) return '';
+            return text.toString().toLowerCase().trim().replace(/\s+/g, ' ');
+        }
+
+        // SUBMIT AND CHECK ANSWER
+        function submitCurrentAnswer() {
+            const q = questions[currentIndex];
+            let isCorrect = false;
+            let userAnsObj = {};
+            let explanation = '';
+
+            if (q.type === 'visual') {
+                const nama = document.getElementById('inputNama').value;
+                const sisi = document.getElementById('inputSisi').value;
+                const rusuk = document.getElementById('inputRusuk').value;
+                const sudut = document.getElementById('inputSudut').value;
+
+                userAnsObj = { nama, sisi, rusuk, sudut };
+
+                const normUserNama = normalizeText(nama);
+                const normTargetNama = normalizeText(q.name);
+
+                // Check condition
+                const nameOk = normUserNama === normTargetNama || normUserNama.includes(normTargetNama);
+                const sisiOk = parseInt(sisi) === q.sisi;
+                const rusukOk = parseInt(rusuk) === q.rusuk;
+                const sudutOk = parseInt(sudut) === q.sudut;
+
+                if (nameOk && sisiOk && rusukOk && sudutOk) {
+                    isCorrect = true;
+                    explanation = `Sempurna! <strong>${q.name}</strong> memiliki <strong>${q.sisi} Sisi</strong>, <strong>${q.rusuk} Rusuk</strong>, dan <strong>${q.sudut} Titik Sudut</strong>.`;
+                } else {
+                    isCorrect = false;
+                    explanation = `Kurang tepat. Jawaban yang benar adalah:<br>
+                    • Nama: <strong>${q.name}</strong><br>
+                    • Jumlah Sisi: <strong>${q.sisi}</strong><br>
+                    • Jumlah Rusuk: <strong>${q.rusuk}</strong><br>
+                    • Titik Sudut: <strong>${q.sudut}</strong>`;
+                }
+            } else {
+                const textVal = document.getElementById('inputTextAns').value;
+                userAnsObj = { text: textVal };
+
+                const normVal = normalizeText(textVal);
+                const normAns = normalizeText(q.answer);
+                const isAliasMatch = q.alias && q.alias.some(a => normalizeText(a) === normVal);
+
+                if (normVal === normAns || isAliasMatch) {
+                    isCorrect = true;
+                    explanation = `Hebat! Jawaban Anda <strong>"${textVal}"</strong> adalah benar!`;
+                } else {
+                    isCorrect = false;
+                    explanation = `Kurang tepat. Jawaban yang benar adalah: <strong>"${q.answer}"</strong>`;
+                }
+            }
+
+            // Save to State
+            userState[currentIndex] = {
+                status: isCorrect ? 'correct' : 'wrong',
+                userAns: userAnsObj,
+                explanation: explanation
             };
 
-            userState[q.id] = stateObj;
-            await saveQuestionStateToDB(q.id, stateObj);
-            renderCurrentQuestion();
+            saveState();
+            renderFeedback(userState[currentIndex]);
+        }
+
+        // RENDER FEEDBACK BOX
+        function renderFeedback(state) {
+            const feedbackBox = document.getElementById('feedbackBox');
+            feedbackBox.classList.remove('hidden');
+
+            if (state.status === 'correct') {
+                feedbackBox.className = "p-4 rounded-2xl text-xs sm:text-sm font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200";
+                feedbackBox.innerHTML = `✅ <strong>Jawaban Benar!</strong> ${state.explanation}`;
+            } else {
+                feedbackBox.className = "p-4 rounded-2xl text-xs sm:text-sm font-semibold bg-rose-50 text-rose-800 border border-rose-200";
+                feedbackBox.innerHTML = `❌ <strong>Belum Tepat.</strong> ${state.explanation}`;
+            }
+        }
+
+        // NAVIGATION HANDLERS
+        function navigateQuestion(direction) {
+            const newIndex = currentIndex + direction;
+            if (newIndex >= 0 && newIndex < questions.length) {
+                loadQuestion(newIndex);
+            }
         }
 
         function jumpToQuestion(index) {
-            currentIndex = index;
-            renderCurrentQuestion();
+            loadQuestion(index);
         }
 
-        function navigateQuestion(direction) {
-            const newIndex = currentIndex + direction;
-            if (newIndex >= 0 && newIndex < questionsData.length) {
-                currentIndex = newIndex;
-                renderCurrentQuestion();
-            }
-        }
-
-        function resetAllData() {
-            document.getElementById("resetModal").classList.remove("hidden");
-        }
-
-        function closeResetModal() {
-            document.getElementById("resetModal").classList.add("hidden");
-        }
-
-        async function confirmResetAll() {
-            userState = {};
-            await clearDB();
-            closeResetModal();
-            currentIndex = 0;
-            renderCurrentQuestion();
-        }
-
-        // Autosave draft input even before submitting
-        document.getElementById("userAnswerInput").addEventListener("input", (e) => {
-            const q = questionsData[currentIndex];
-            if (!userState[q.id]?.isSubmitted) {
-                const draftObj = {
-                    answer: e.target.value,
-                    isSubmitted: false,
-                    isCorrect: false
-                };
-                userState[q.id] = draftObj;
-                saveQuestionStateToDB(q.id, draftObj);
-            }
-        });
-
-        // Application Start
-        window.onload = async function() {
-            try {
-                await initDB();
-                await loadStateFromDB();
-            } catch (err) {
-                console.warn("IndexedDB fallback active", err);
-            }
-            renderCurrentQuestion();
+        // INIT ON WINDOW LOAD
+        window.onload = function() {
+            initApp();
         };
     </script>
 </body>
